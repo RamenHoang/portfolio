@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
+  metadataBase: new URL("https://hoangvuongdigital.com"),
   title: "Thiết Kế Website Chuẩn SEO - Tối Ưu Hiệu Quả & Tăng Thứ Hạng",
   description:
     "Dịch vụ thiết kế website chuẩn SEO, tốc độ cao, tối ưu Google giúp tăng traffic và chuyển đổi hiệu quả.",
