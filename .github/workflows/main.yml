@@ -29,6 +29,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p 24700 << EOF
           source .bash_profile
 
+          nvm use default
+
           cd /root/portfolio
 
           # Set GitHub credentials using GITHUB_TOKEN
