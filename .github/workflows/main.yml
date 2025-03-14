@@ -1,0 +1,49 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: PROD
+
+    env:
+      SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: SSH into server and deploy application
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} << EOF
+          source /root/.bashrc
+
+          cd /root/portfolio
+
+          # Set GitHub credentials using GITHUB_TOKEN
+          git config --global credential.helper store
+          echo "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" > ~/.git-credentials
+
+          # Pull the latest code from the repository
+          git pull origin master
+
+          # Install dependencies
+          npm i
+
+          # Build
+          npm run build
+
+          # Restart the service
+          pm2 reload ecosytem.config.js
+        EOF
