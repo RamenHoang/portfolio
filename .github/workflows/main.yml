@@ -27,10 +27,6 @@ jobs:
     - name: SSH into server and deploy application
       run: |
         ssh -o StrictHostKeyChecking=no ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p 24700 << EOF
-          source .bash_profile
-
-          nvm use default
-
           cd /root/portfolio
 
           # Set GitHub credentials using GITHUB_TOKEN
@@ -41,11 +37,11 @@ jobs:
           git pull origin master
 
           # Install dependencies
-          npm i
+          /root/.nvm/versions/node/v18.20.7/bin/npm i
 
           # Build
-          npm run build
+          /root/.nvm/versions/node/v18.20.7/bin/npm run build
 
           # Restart the service
-          pm2 reload ecosytem.config.js
+          /root/.nvm/versions/node/v18.20.7/bin/pm2 reload ecosytem.config.js
         EOF
