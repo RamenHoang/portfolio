@@ -38,8 +38,21 @@ jobs:
           # Pull the latest code from the repository
           git pull origin master
 
+          # Check npm command is available, if not install it
+          if ! command -v npm &> /dev/null
+          then
+              curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+          fi
+
           # Install dependencies
           npm i
+
+          # Check pm2 command is available, if not install it
+          if ! command -v pm2 &> /dev/null
+          then
+              npm install pm2 -g
+          fi
 
           # Build
           npm run build
