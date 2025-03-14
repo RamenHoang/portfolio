@@ -27,6 +27,7 @@ jobs:
     - name: SSH into server and deploy application
       run: |
         ssh -o StrictHostKeyChecking=no ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p 24700 << EOF
+          /usr/bin/env
           cd /root/portfolio
 
           # Set GitHub credentials using GITHUB_TOKEN
