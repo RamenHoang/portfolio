@@ -27,9 +27,7 @@ jobs:
     - name: SSH into server and deploy application
       run: |
         ssh -o StrictHostKeyChecking=no ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p 24700 << EOF
-          echo $SHELL
-
-          source /root/.bashrc
+          source .bash_profile
 
           cd /root/portfolio
 
